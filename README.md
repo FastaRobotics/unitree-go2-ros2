@@ -60,17 +60,22 @@ sudo apt-get install ros-humble-velodyne-description
 sudo apt install -y python3-rosdep
 rosdep update
 
-cd <your_ws>/src
+mkdir go2_ws 
+cd go2_ws 
+mkdir src 
+cd src 
+
+cd go2_ws/src
 git clone https://github.com/anujjain-dev/unitree-go2-ros2.git
-cd <your_ws>
+cd go2_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
 ### 1.2 Build your workspace:
 ```bash
-cd <your_ws>
+cd go2_ws
 colcon build
-. <your_ws>/install/setup.bash
+. go2_ws/install/setup.bash
 ```
 ## 2. Quick Start
 
@@ -147,6 +152,49 @@ The gait configuration for your robot can be found in <my_robot_config>/gait/gai
 - **CoM X Translation** (meters) - You can use this parameter to move the reference point in the X axis. This is useful when you want to compensate for the weight if the center of mass is not in the middle of the robot (from front hip to rear hip). For instance, if you find that the robot is heavier at the back, you'll set a negative value to shift the reference point to the back.
 
 - **Odometry Scaler** - You can use this parameter as a multiplier to the calculated velocities for dead reckoning. This can be useful to compensate odometry errors on open-loop systems. Normally this value ranges from 1.0 to 1.20.
+
+## 4. Writing your own algorithms
+In this section we are going to learn how to develop your own examples. first we will create our own example and teach you how to run it. 
+
+### 4.1 Create new package
+first you will create your own package or simply can add your codes to pre-existed package called **black_object_detector** 
+
+```bash
+cd go2_ws
+source /opt/ros/humble/setup.bash
+source install
+ros2 pkg create black_object_detector --build-type ament_python --dependencies rclpy sensor_msgs std_msgs cv_bridge geometry_msgs
+```
+
+after creating your package you can write your python codes in black_object_detector folder under black_object_detector package:
+
+```bash
+cd black_object_detector/black_object_detector
+touch detect_black_objects.py 
+chmod +x detect_black_objects.py
+```
+
+then you will write your codes on the python file you created. note that if you created a node for example like below:
+```python 
+super().__init__("black_object_detector")
+```
+you should add the node in the setup file of your package: 
+
+```python 
+entry_points={
+        'console_scripts': [
+            'detect_black_objects = black_object_detector.detect_black_objects:main',
+        ]
+}
+```
+after creating package you should build your package then use it:
+```bash 
+cd ~/go2_ws
+colcon build 
+ros2 launch go2_config gazebo.launch.py rviz:=true
+ros2 run black_object_detector detect_black_objects
+```
+
 
 ## Contributing
 
