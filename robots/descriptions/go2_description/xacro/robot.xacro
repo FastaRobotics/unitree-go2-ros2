@@ -80,7 +80,7 @@
             </geometry>
         </collision>
     </link>
-    <!-- camera -->
+    
   <gazebo reference="camera_link">
     <sensor type="camera" name="camera1">
       <update_rate>30.0</update_rate>
@@ -120,7 +120,6 @@
       </plugin>
     </sensor>
   </gazebo>
-
 
     <xacro:leg name="rf" mirror="-1" mirror_dae= "False" front_hind="1"  front_hind_dae="True"  />
     <xacro:leg name="lf" mirror="1"  mirror_dae="True"   front_hind="1"  front_hind_dae="True"  />

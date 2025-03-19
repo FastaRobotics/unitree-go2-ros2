@@ -65,8 +65,7 @@ cd go2_ws
 mkdir src 
 cd src 
 
-cd go2_ws/src
-git clone https://github.com/anujjain-dev/unitree-go2-ros2.git
+git clone https://github.com/FastaRobotics/unitree-go2-ros2.git
 cd go2_ws
 rosdep install --from-paths src --ignore-src -r -y
 ```

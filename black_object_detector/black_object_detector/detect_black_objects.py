@@ -19,7 +19,7 @@ class NormalImageProcessor(Node):
         self.image_width = 800  # ✅ Change this to match your camera resolution
 
         # ✅ Corrected Image topic
-        normal_image_topic = "/camera1/image_raw"
+        normal_image_topic = "/camera/image_raw"
 
         # ✅ Subscribe to camera images
         self.subscription = self.create_subscription(
@@ -133,7 +133,7 @@ class NormalImageProcessor(Node):
 
     def visualize_normal_image(self):
         if self.normal_image is not None:
-            cv2.imshow("Camera1 View", self.normal_image)
+            cv2.imshow("camera View", self.normal_image)
             cv2.waitKey(1)
 
 
